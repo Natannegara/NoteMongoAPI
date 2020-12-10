@@ -2,7 +2,6 @@ const express = require('express')
 const { hashPassword } = require('../../helpers/bcryptHelper')
 const { signJwt } = require('../../helpers/jwtHelper')
 const errorMiddleware = require('../../middlewares/errorMiddleware')
-const { nanoid } = require('nanoid')
 const UserModel = require('../../model/userModel')
 
 const app = express.Router()
@@ -12,7 +11,6 @@ app.post('/auth/register', async (req, res, next) => {
   const password = body.password
   const hashedPassword = await hashPassword(password)
   body.password = hashedPassword
-  body.id = nanoid()
   const insertResult = await UserModel.create(body)
     .catch((error) => {
       next(error)
